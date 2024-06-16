@@ -6,17 +6,36 @@ class Users:
     personal_number = ''
     phone_number = ''
     address = ''
+    @classmethod
+    def validate(cls,arg):
+        print('ВЫЗОВ ВАЛИДЭЙТ')
+        return 7<len(cls.surname)<16
+
+
+    def __new__(cls, *args, **kwargs):
+        print('вызов для __new__ lkz '+str(cls))
+        return super().__new__(cls)
+
+    def __init__(self,a='Фамилия',b='Имя',c='Отчество'):
+        print('вызов инит')
+        self.surname=a
+        self.name=b
+        self.surname=c
+    def __del__(self):
+        print('удаление экземпляра')
 
     def set_fio(self, surname):
         self.surname = surname
         return print(self.surname)
 
+us=Users('1','2','3')
+print(us)
 
-user1 = Users()
-user2 = Users()
-user1.set_fio('Корнач')
+user1 = Users('Kornach','Oleg','Vasilevich')
+user2 = Users('Корнач','Олег','Васильевич')
 
-print(user1.surname)
+print(user1.__dict__)
+print(user2.__dict__)
 
 
 class Phones:
@@ -76,3 +95,5 @@ print('20  тест 3 =', test3)  # False
 print(hasattr(a, 'year'))
 print(hasattr(Phones, 'color'))
 print(Phones.__dict__)
+print(us.surname)
+print(us.validate(us.surname))
