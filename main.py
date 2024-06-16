@@ -6,6 +6,13 @@ class Users:
     personal_number = ''
     phone_number = ''
     address = ''
+    def __init__(self,surname:str ,name:str,last_name:str):
+        print('вызов инит')
+        self.surname=surname
+        self.name=name
+        self.last_name=last_name
+
+
     @classmethod
     def validate(cls,arg):
         print('ВЫЗОВ ВАЛИДЭЙТ')
@@ -16,11 +23,7 @@ class Users:
         print('вызов для __new__ lkz '+str(cls))
         return super().__new__(cls)
 
-    def __init__(self,a='Фамилия',b='Имя',c='Отчество'):
-        print('вызов инит')
-        self.surname=a
-        self.name=b
-        self.surname=c
+
     def __del__(self):
         print('удаление экземпляра')
 
@@ -28,8 +31,8 @@ class Users:
         self.surname = surname
         return print(self.surname)
 
-us=Users('1','2','3')
-print(us)
+us=Users(input(),'2','3')
+print('имя:',us.surname)
 
 user1 = Users('Kornach','Oleg','Vasilevich')
 user2 = Users('Корнач','Олег','Васильевич')
