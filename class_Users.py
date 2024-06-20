@@ -4,47 +4,53 @@ class Users:
     name = 'Имя'
     last_name = 'Отчество'
     id_number = 'Персональный номер'
-
+    pattern ='АБВГДЕЖЗИКЛМ' # надо будет добавить словарь, чтобы проверить правильность ввода ФИО
+   # def __new__(cls, *args, **kwargs):
+   #     print('вызов для __new__ '+str(cls))
+   #     return super().__new__(cls)
+    
     def __init__(self,surname:str ,name:str,last_name:str,id_number:int):
-        print('вызов инит')
+        print('Вызов функции инициализации пользователя')
         self.surname=surname
         self.name=name
         self.last_name=last_name
         self.id_number=id_number
 
-    # @classmethod
-    # def validate(cls,arg):
-    #     print('ВЫЗОВ ВАЛИДЭЙТ')
-    #     return 7<len(cls.surname)<16
-
-    def __new__(cls, *args, **kwargs):
-        print('вызов для __new__ lkz '+str(cls))
-        return super().__new__(cls)
-
+    @classmethod
+    def set_validate(cls,filtr):
+         cls.pattern=filtr
+         print('ВЫЗОВ ВАЛИДЭЙТ')
 
     def __del__(self):
         print('удаление экземпляра')
 
-    def set_User(self,surname:str ,name:str,last_name:str,id_number:int):
+    def set_user(self,surname:str ,name:str,last_name:str,id_number:int):
+        print('запись данных пользователя')
+        self.surname = surname
+        self.name = name
+        self.last_name = last_name
+        self.id_number = id_number
+        return print('сеттер для ФИО и ID записаны', )
+        
+    def get_user(self,surname:str ,name:str,last_name:str,id_number:int):
         self.surname = surname
         print('перезаписать данные пользователя ')
         self.surname = surname
         self.name = name
         self.last_name = last_name
         self.id_number = id_number
-        return print('сеттер для ФИО и ID записаны', )
-    def get_User(self,surname:str ,name:str,last_name:str,id_number:int):
-        self.surname = surname
-        print('перезаписать данные пользователя ')
-        self.surname = surname
-        self.name = name
-        self.last_name = last_name
-        self.id_number = id_number
-        return print('сеттер для ФИО и ID записаны', )
-
-user1=Users(input(Users.surname+':'),input(Users.name+':'),input(Users.last_name+':'),input(Users.id_number+':'))
-print('имя:',user1.surname)
-
-
-
+        return print('сеттер для ФИО и ID записаны')
+        
+    def __getattribute__(self,item): # функция предназначена для запрета к обращению к несуществующим атрибутам экземпляра
+         print('вызов __getattribute__')
+        if item == "pattern" :
+            raise ValueError('недопустимый ввод атрибута')
+        else:          
+        return object.__getattribute__(self,item)
+        
+user1=Users('Ф','И','О',23267)
+#user1=Users(input(Users.surname+':'),input(Users.name+':'),input(Users.last_name+':'),input(Users.id_number+':'))
+#print('имя:',user1.name)
+#user1.pattern(999)
 print('распечатаем атрибуты экземляра user1 ', user1.__dict__)
+print('распечатаем атрибуты Класса ', Users.__dict__)
