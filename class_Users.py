@@ -41,16 +41,20 @@ class Users:
         self.id_number = id_number
         return print('сеттер для ФИО и ID записаны')
         
-    def __getattribute__(self,item): # функция предназначена для запрета к обращению к несуществующим атрибутам экземпляра
-         print('вызов __getattribute__')
-        if item == "pattern" :
-            raise ValueError('недопустимый ввод атрибута')
+    def __getattribute__(self,item): # функция предназначена для запрета к обращению к (не)существующим атрибутам экземпляра
+        print('вызов __getattribute__')
+        if item == "Фамилия" or item == "Имя" or item == "Отчество" :
+            raise print('недопустимый ввод атрибута')
         else:          
-        return object.__getattribute__(self,item)
+            return object.__getattribute__(self,item)
         
 user1=Users('Ф','И','О',23267)
+user1.NAME=12
+f=1
+а= isdigit(1)
+print(a)
 #user1=Users(input(Users.surname+':'),input(Users.name+':'),input(Users.last_name+':'),input(Users.id_number+':'))
 #print('имя:',user1.name)
-#user1.pattern(999)
+
 print('распечатаем атрибуты экземляра user1 ', user1.__dict__)
 print('распечатаем атрибуты Класса ', Users.__dict__)
