@@ -47,6 +47,10 @@ class Users:
             raise print('недопустимый ввод атрибута')
         else:          
             return object.__getattribute__(self,item)
+
+    def __setattr__(self,key,value):
+        print('__setattr__')
+        object.__setattr__(self,key,value)
         
 user1=Users('Ф','И','О',23267)
 user1.NAME=12
