@@ -62,3 +62,35 @@ print(a)
 
 print('распечатаем атрибуты экземляра user1 ', user1.__dict__)
 print('распечатаем атрибуты Класса ', Users.__dict__)
+###############================########==================###############
+class Person:
+    S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
+    S_RUS_UPPER = S_RUS.upper() # заглавные буквы
+ 
+    def __init__(self,sname,name,lname,year,id_number,passport):
+        self.__sname = sname
+        self.__name = name
+        self.__lname = lname
+        self.__year = year
+        self.__id_number = id_number
+        self.__passport = passport
+        self.verify_fio(sname,name,lname)
+        self.verify_year(year)
+        
+    @classmethod
+    def verify_fio(cls,sname,name,lname):
+        error='- может состоять только из русских букв и дефиса'
+        if type(sname)!= str:
+            print(f'"{sname}" {error}')
+        if type(name)!= str:
+            print(f'"{sname}" {error}')
+        if type(lname)!= str:
+            print(f'"{sname}" {error}')
+            
+    @classmethod
+    def verify_year(cls,year):
+        error='- год рождения может быть только цыфрами'
+        if type(year)!= int:
+            print(f'"{year}" {error}')
+a=Person('Корнач','Олег','Васильевич',1985,23765,'MP123456') 
+    
