@@ -68,15 +68,18 @@ class Person:
     S_RUS_UPPER = S_RUS.upper() # заглавные буквы
  
     def __init__(self,sname,name,lname,year,id_number,passport):
+        self.verify_fio(sname,name,lname)
+        self.verify_year(year)
+        self.verify_id_number(id_number)
+        self.verify_passport(passport)
+        
         self.__sname = sname
         self.__name = name
         self.__lname = lname
         self.__year = year
         self.__id_number = id_number
         self.__passport = passport
-        self.verify_fio(sname,name,lname)
-        self.verify_year(year)
-        
+      
     @classmethod
     def verify_fio(cls,sname,name,lname):
         error='- может состоять только из русских букв и дефиса'
@@ -92,5 +95,58 @@ class Person:
         error='- год рождения может быть только цыфрами'
         if type(year)!= int:
             print(f'"{year}" {error}')
-a=Person('Корнач','Олег','Васильевич',1985,23765,'MP123456') 
+   
+    @classmethod
+    def verify_id_number(cls,id_number):
+         error='- идентификационный номер может быть только цыфрами'
+         if type(id_number)!= int:
+             print(f'"{id_number}" {error}')
     
+    @classmethod
+    def verify_passport(cls,passport):
+         error='- серия и номер пасспорт может быть только из первых 2ух латинских букв и 6 цыфр'
+         if type(passport)!= str:
+             print(f'"{passport}" {error}')
+         if len(passport)!=9:
+             print(f'"{passport}" {error}')
+
+    @property
+    def sname(self):
+        return self.__sname
+    
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def lname(self):
+        return self.__lname
+    
+    @property
+    def year(self):
+        return self.__year
+   
+    @year.setter
+    def verify_year(self,year):
+        self.__year = year
+    
+    @property
+    def  id_number(self):
+        return self.__id_number
+    
+    @id_number.setter
+    def verify_year(self,id_number):
+        self.__id_number = id_number
+    
+    @property
+    def  passport(self):
+        return self.__passport
+    
+
+        
+
+a=Person(sname='Корнач',name='Олег',lname='Васильевич',year=5,id_number=23765,passport='MP123456') 
+passport='MP123456'
+a.id_number=31354
+x=a.id_number
+print(x)
