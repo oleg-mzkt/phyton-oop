@@ -66,9 +66,14 @@ print('распечатаем атрибуты Класса ', Users.__dict__)
 class Person:
     S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper() # заглавные буквы
+    error='- может состоять только из русских букв и дефиса'
+    error1='неверный ввод серии паспорта (серия паспорта должна состоять из 2ух латинских символов)'
+    error2='неверный ввод номера паспорта (серия паспорта должна состоять только из 6-ти цыфр)'
  
     def __init__(self,sname,name,lname,year,id_number,passport):
-        self.verify_fio(sname,name,lname)
+        self.verify_sname(sname)
+        self.verify_name(name)
+        self.verify_lname(lname)
         self.verify_year(year)
         self.verify_id_number(id_number)
         self.verify_passport(passport)
@@ -81,14 +86,21 @@ class Person:
         self.__passport = passport
       
     @classmethod
-    def verify_fio(cls,sname,name,lname):
-        error='- может состоять только из русских букв и дефиса'
+    def verify_sname(cls,sname):
         if type(sname)!= str:
             print(f'"{sname}" {error}')
+    
+    @classmethod
+    def verify_name(cls,name):
+        error='- может состоять только из русских букв и дефиса'
         if type(name)!= str:
-            print(f'"{sname}" {error}')
+            print(f'"{name}" {error}')
+    
+    @classmethod
+    def verify_lname(cls,lname):
+        error='- может состоять только из русских букв и дефиса'
         if type(lname)!= str:
-            print(f'"{sname}" {error}')
+            print(f'"{lname}" {error}')
             
     @classmethod
     def verify_year(cls,year):
@@ -107,27 +119,43 @@ class Person:
          error='- серия и номер пасспорт может быть только из первых 2ух латинских букв и 6 цыфр'
          if type(passport)!= str:
              print(f'"{passport}" {error}')
-         if len(passport)!=9:
-             print(f'"{passport}" {error}')
+         if len(passport)!=8:
+             print(f'"{passport}" {cls.error2}')
 
     @property
     def sname(self):
         return self.__sname
+        
+    @sname.setter
+    def sname(self,sname):
+        self.verify_sname(sname)
+        self.__sname=sname
     
     @property
     def name(self):
         return self.__name
     
+    @name.setter
+    def name(self,name):
+        self.verify_name(name)
+        self.__name=name
+    
     @property
     def lname(self):
         return self.__lname
+        
+    @lname.setter
+    def lname(self,lname):
+        self.verify_name(lname)
+        self.__lname=lname
     
     @property
     def year(self):
         return self.__year
    
     @year.setter
-    def verify_year(self,year):
+    def year(self,year):
+        self.verify_year(year)
         self.__year = year
     
     @property
@@ -135,18 +163,24 @@ class Person:
         return self.__id_number
     
     @id_number.setter
-    def verify_year(self,id_number):
+    def id_number(self,id_number):
+        self.verify_id_number(id_number)
         self.__id_number = id_number
     
     @property
     def  passport(self):
         return self.__passport
     
+    @passport.setter
+    def passport(self,passport):
+        self.verify_passport(passport)
+        self.__passport=passport
+    
 
         
 
-a=Person(sname='Корнач',name='Олег',lname='Васильевич',year=5,id_number=23765,passport='MP123456') 
-passport='MP123456'
-a.id_number=31354
-x=a.id_number
-print(x)
+X=Person(sname='Корнач',name='Олег',lname='Васильевич', year=1985,id_number=23765,passport='MP1234563') 
+
+X.id_number=1234567890
+X.passprot='МР340256'
+print(X.id_number,X.passprot)
