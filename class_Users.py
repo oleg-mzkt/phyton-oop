@@ -90,6 +90,9 @@ class Person:
         self.__year = year
         self.__id_number = id_number
         self.__passport = passport
+    
+    def __del__(self):
+        print('удаление экземпляра'+str(self))
       
     @classmethod
     def verify_sname(cls,sname):
@@ -182,10 +185,22 @@ class Person:
         self.verify_passport(passport)
         self.__passport=passport
     
+    @passport.deleter
+    def passport(self):
+        del(self.__passport)
+    
+   
 
         
 
 X=Person(sname='Корнач',name='Олег',lname='Васильевич', year=1985,id_number=23765,passport='MP1234563') 
+del (X.passport)
+
+print(X.__dict__)
+
+Y=Person(sname='Корнач',name='Олег',lname='Васильевич', year=1985,id_number=23765,passport='MP1234563') 
+print(Y.__dict__)
+
 
 X.id_number=1234567890
 X.passprot='МР340256'
