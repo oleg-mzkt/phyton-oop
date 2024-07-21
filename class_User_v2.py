@@ -7,6 +7,8 @@
 # class Interface_Person
 
 class Person:
+    """Cоздание пользователя с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
+
     S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper()  # заглавные буквы
     error = '- может состоять только из русских букв и дефиса'
@@ -34,13 +36,12 @@ class Person:
     @classmethod
     def verify_sname(cls, sname):
         if type(sname) != str:
-            print(f'"{sname}" {error}')
+            print(f'"{sname}" {cls.error}')
 
     @classmethod
     def verify_name(cls, name):
-        error = '- может состоять только из русских букв и дефиса'
         if type(name) != str:
-            print(f'"{name}" {error}')
+            print(f'"{name}" {cls.error}')
 
     @classmethod
     def verify_lname(cls, lname):
@@ -124,15 +125,16 @@ class Person:
 
     @passport.deleter
     def passport(self):
-        del (self.__passport)
+        del self.__passport
 
+
+# print(Person.__doc__)
 
 X = Person(sname='Корнач', name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP1234563')
-del (X.passport)
-
+del X.passport
 print(X.__dict__)
 
-Y = Person(sname='Корнач', name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP1234563')
+Y = Person(sname='КорначЯ', name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP1234563')
 print(Y.__dict__)
 
 X.id_number = 1234567890
