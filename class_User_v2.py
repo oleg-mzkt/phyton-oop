@@ -6,23 +6,23 @@
 #       Предусмотреть возможность добавления и удаления атрибутов.
 
 # class Interface_Person
-
 class Person:
-    """Cоздание пользователя с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
+    """Класс персон с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
     S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper()  # заглавные буквы
     
     error_rus = '- может состоять только из русских букв и дефиса'
-    
     error_year = '- год рождения может быть только цыфрами'
-    
     error_id_number = 'ID должен состоять из 5 цыфр'
-    
     error_passport_serial='неверный ввод серии паспорта (серия паспорта должна состоять из 2ух латинских символов)'
     error_passport_number = 'неверный ввод номера паспорта (серия паспорта должна состоять только из 6-ти цыфр)'
     
+    def __new__(cls,*args,**kwargs):
+        print ('вызов функции __new__' + str(cls))
+        return super().__new__(cls)
 
-    def __init__(self, sname, name, lname, year, id_number, passport):
+    def __init__(self, sname='Фамилия', name='Имя', lname='Отчество', year='Год рождения', id_number='Идентификационный номер', passport='Паспорт:серия,номер'):
+        print('вызов функции __init__' + str(self))
         self.verify_sname(sname)
         self.verify_name(name)
         self.verify_lname(lname)
@@ -39,12 +39,12 @@ class Person:
 
     @classmethod
     def verify_sname(cls, sname):
+        print('вызов @classmethod verify_sname')
         if type(sname) != str:
             print(f'"{sname}" {cls.error_rus}')
 
     @classmethod
     def verify_name(cls, name):
-        error = '- может состоять только из русских букв и дефиса'
         if type(name) != str:
             print(f'"{name}" {cls.error_rus}')
 
@@ -73,9 +73,9 @@ class Person:
     @classmethod # проверка паспорта корректность
     def verify_passport(cls, passport):
         passport=passport.strip()
-        print(f'{passport} удаление пробелов')
-        print(f'{passport[0:2]} выделение серии')
-        print(f'{passport[2:8]} выделение номера паспорта')
+        print(f'{passport} - удаление пробелов')
+        print(f'{passport[0:2]} - выделение серии')
+        print(f'{passport[2:8]} - выделение номера паспорта')
         if type(passport) != str:
             print(f'"{passport[0:2]}" {cls.error_passport_serial}')
         
@@ -164,12 +164,27 @@ class Person:
     def passport(self):
         del (self.__passport)
         
-    # def __del__(self):
-    #     print('удаление экземпляра' + str(self))
+    def __del__(self):
+        print('удаление экземпляра' + str(self))
+    
+    @classmethod   
+    def get_FIO(self):
+        return (self.name)
+        
 
 
 
-X = Person(sname='Корнач', name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP123456 ')
+X=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP123456 ')
+
+print('Фамилия:' + X.sname)
+print('Имя:'+ X.name)
+print('Отчество:'+ X.name)
+print(X)
+print(Person)
+
+
+#print(X.__doc__)
+
 #del (X.passport)
 
 #print(X.__dict__)
