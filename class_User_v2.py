@@ -5,11 +5,29 @@
 # 4. Номер паспорта в формате MP440276
 #       Предусмотреть возможность добавления и удаления атрибутов.
 
-# class Interface_Person
+class DataBase:
+    def __init__(self,user,psw,port):
+        self.user=user
+        self.psw=psw
+        self.port=port
+    
+    def connect(self):
+        print('')
+    def close(self):
+        print('')
+    def read(self):
+        print('')
+    def write(self,data):
+        print('')
+    def search(self,data):
+        print('')
+        
+
 class Person:
     """Класс персон с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
-    S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
+    S_RUS = 'mpaбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper()  # заглавные буквы
+    INT_NUMBERS ='1234567890'
     
     error_rus = '- может состоять только из русских букв и дефиса'
     error_year = '- год рождения может быть только цыфрами'
@@ -18,11 +36,11 @@ class Person:
     error_passport_number = 'неверный ввод номера паспорта (серия паспорта должна состоять только из 6-ти цыфр)'
     
     def __new__(cls,*args,**kwargs):
-        print ('вызов функции __new__' + str(cls))
+        #print ('вызов функции __new__' + str(cls))
         return super().__new__(cls)
 
     def __init__(self, sname='Фамилия', name='Имя', lname='Отчество', year='Год рождения', id_number='Идентификационный номер', passport='Паспорт:серия,номер'):
-        print('вызов функции __init__' + str(self))
+        #print('вызов функции __init__' + str(self))
         self.verify_sname(sname)
         self.verify_name(name)
         self.verify_lname(lname)
@@ -39,7 +57,7 @@ class Person:
 
     @classmethod
     def verify_sname(cls, sname):
-        print('вызов @classmethod verify_sname')
+        #print('вызов @classmethod verify_sname')
         if type(sname) != str:
             print(f'"{sname}" {cls.error_rus}')
 
@@ -72,15 +90,18 @@ class Person:
 
     @classmethod # проверка паспорта корректность
     def verify_passport(cls, passport):
-        passport=passport.strip()
+        #print(f'вызов функиции verify_passport')
+        
+        passport=passport.strip(cls.S_RUS_UPPER) 
         print(f'{passport} - удаление пробелов')
-        print(f'{passport[0:2]} - выделение серии')
-        print(f'{passport[2:8]} - выделение номера паспорта')
+        
         if type(passport) != str:
             print(f'"{passport[0:2]}" {cls.error_passport_serial}')
-        
-        if type(passport[2:6]) != str:
-            print(f'"{passport[2:6]}" {cls.error_passport_serial}')  
+            #print(f'{passport[0:2]} - выделение серии')
+
+        if type(int(passport[2:6])) != int:
+            print(f'"{passport[2:8]}" {cls.error_passport_number}')
+            print(f'{passport[2:8]} - выделение номера паспорта')
         
         if len(passport) != 8:
             print(f'"{passport}" {cls.error_passport_number}')
@@ -171,16 +192,15 @@ class Person:
     def get_FIO(self):
         return (self.name)
         
-
-
-
-X=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP123456 ')
-
-print('Фамилия:' + X.sname)
-print('Имя:'+ X.name)
-print('Отчество:'+ X.name)
-print(X)
-print(Person)
+if __name__=="__main__":
+    X=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP123456 ')
+    print('ID:' + str(X.id_number))
+    print('Фамилия:' + X.sname)
+    print('Имя:'+ X.name)
+    print('Отчество:'+ X.lname)
+    print('Год рождения:'+ str(X.year))
+    print(X)
+    print(Person)
 
 
 #print(X.__doc__)
