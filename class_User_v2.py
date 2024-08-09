@@ -25,13 +25,14 @@ class DataBase:
 
 class Person:
     """Класс персон с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
-    S_RUS = 'mpaбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
+    S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper()  # заглавные буквы
-    INT_NUMBERS ='1234567890'
+    numbers ='1234567890'
     
     error_rus = '- может состоять только из русских букв и дефиса'
     error_year = '- год рождения может быть только цыфрами'
     error_id_number = 'ID должен состоять из 5 цыфр'
+    error_passport='неверный формат паспорта(XX123456,где XX - серия паспорта, 123456 - номер паспорта)'
     error_passport_serial='неверный ввод серии паспорта (серия паспорта должна состоять из 2ух латинских символов)'
     error_passport_number = 'неверный ввод номера паспорта (серия паспорта должна состоять только из 6-ти цыфр)'
     
@@ -90,23 +91,27 @@ class Person:
 
     @classmethod # проверка паспорта корректность
     def verify_passport(cls, passport):
-        #print(f'вызов функиции verify_passport')
+        print(f'вызов функиции verify_passport')
+        passport=passport.replace(' ','')
+        # print(f'{passport} - удаление пробелов')
         
-        passport=passport.strip(cls.S_RUS_UPPER) 
-        print(f'{passport} - удаление пробелов')
-        
-        if type(passport) != str:
-            print(f'"{passport[0:2]}" {cls.error_passport_serial}')
-            #print(f'{passport[0:2]} - выделение серии')
+        if len(passport)!=8:
+            print(f'{cls.error_passport}')
 
-        if type(int(passport[2:6])) != int:
-            print(f'"{passport[2:8]}" {cls.error_passport_number}')
-            print(f'{passport[2:8]} - выделение номера паспорта')
+        if len(passport.strip('1234567890')) == 2 :
+            print(f'{passport[0:2]} -  серия паспорта')
+        else:
+            print(f'"{passport[0:2]}" {cls.error_passport_serial}')
+
+        # if type(int(passport[2:6])) == int:
+        #     print(f'{passport[2:8]} -  номера паспорта')
+        #     print(f'"{passport[2:8]}" {cls.error_passport_number}')
         
-        if len(passport) != 8:
+        if len(passport.strip()) != 6:
+            print(f'{passport[2:6]} -  серия паспорта')
             print(f'"{passport}" {cls.error_passport_number}')
         return passport
-
+    
     @property
     def sname(self):
         return self.__sname
@@ -188,19 +193,39 @@ class Person:
     def __del__(self):
         print('удаление экземпляра' + str(self))
     
-    @classmethod   
-    def get_FIO(self):
-        return (self.name)
+    def get_old(self):
+        return self.__old
+    
+    def set_old(self, old):
+        self.__old=old
+    
+    def del_old(self):
+        del (self.__old)
+    
+    old = property(get_old,set_old,del_old)
+
+  
+    
+    # @staticmethod  # - вычисляет возраст
+    # def show_old(old): 
+    #     old=2024-old
+    #     return print('Возраст: '+str(old))
         
 if __name__=="__main__":
-    X=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1985, id_number=23765, passport='MP123456 ')
+    X=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1985, id_number=23765, passport=' MP 123456 ')
+    # Y=Person(sname="Корнач", name='Олег', lname='Васильевич', year=1984, id_number=23765, passport='MP12345678')
     print('ID:' + str(X.id_number))
     print('Фамилия:' + X.sname)
     print('Имя:'+ X.name)
     print('Отчество:'+ X.lname)
     print('Год рождения:'+ str(X.year))
-    print(X)
+    X.old=37
+    print(X.__dict__)
+    del X.old
+    print(X.__dict__)
     print(Person)
+    #Person.show_old(X.year)   # - для работы со статическим методом 
+    # Person.show_old(Y.year)
 
 
 #print(X.__doc__)
