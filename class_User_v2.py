@@ -5,29 +5,12 @@
 # 4. Номер паспорта в формате MP440276
 #       Предусмотреть возможность добавления и удаления атрибутов.
 
-class DataBase:
-    def __init__(self,user,psw,port):
-        self.user=user
-        self.psw=psw
-        self.port=port
-    
-    def connect(self):
-        print('')
-    def close(self):
-        print('')
-    def read(self):
-        print('')
-    def write(self,data):
-        print('')
-    def search(self,data):
-        print('')
-        
 
 class Person:
     """Класс персон с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
     S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
     S_RUS_UPPER = S_RUS.upper()  # заглавные буквы
-    numbers ='1234567890'
+    NUMBERS ='1234567890'
     
     error_rus = '- может состоять только из русских букв и дефиса'
     error_year = '- год рождения может быть только цыфрами'
@@ -37,7 +20,7 @@ class Person:
     error_passport_number = 'неверный ввод номера паспорта (серия паспорта должна состоять только из 6-ти цыфр)'
     
     def __new__(cls,*args,**kwargs):
-        #print ('вызов функции __new__' + str(cls))
+        print ('вызов функции __new__' + str(cls))
         return super().__new__(cls)
 
     def __init__(self, sname='Фамилия', name='Имя', lname='Отчество', year='Год рождения', id_number='Идентификационный номер', passport='Паспорт:серия,номер'):
@@ -96,12 +79,14 @@ class Person:
         # print(f'{passport} - удаление пробелов')
         
         if len(passport)!=8:
-            print(f'{cls.error_passport}')
+            print(f'ошибка 1 {cls.error_passport}')
 
-        if len(passport.strip('1234567890')) == 2 :
-            print(f'{passport[0:2]} -  серия паспорта')
+        if len(passport.strip('1234567890')) != 2 :
+            x=passport.strip().strip('1234567890')
+            print(f'ошибка 2 {x} -  серия паспорта')
+
         else:
-            print(f'"{passport[0:2]}" {cls.error_passport_serial}')
+            print(f'ошибка 3 "{passport[0:2]}" {cls.error_passport_serial}')
 
         # if type(int(passport[2:6])) == int:
         #     print(f'{passport[2:8]} -  номера паспорта')
