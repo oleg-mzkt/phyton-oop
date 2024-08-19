@@ -4,7 +4,40 @@
 # 3. Возраст (количество полных лет с автоматическим подсчётом)
 # 4. Номер паспорта в формате MP440276
 #       Предусмотреть возможность добавления и удаления атрибутов.
+#================================================================
+class FN_interface:
+    
+    def __set_name__(self,owner,name):
+        self.name = "_" + name
+    
+    def __get__(self,instance,owner):
+        print(f"__get__:{self.name}={owner}")
+        return instance.__dict__[self.name]
+        
+    def __set__(self,instance,value):
+        print(f"__set__:{self.name}={value}")
+        print(f"__set__:{self.name}={value}")
+        instance.__dict__[self.name] = [self.name]
 
+class Full_Name:
+    user_name = FN_interface()
+    user_surname = FN_interface()
+    user_patronymic = FN_interface()
+    
+    def __init__(self, user_name, user_surname, user_patronymic):
+        self.user_name=user_name
+        self.user_surname=user_surname
+        self.user_patronymic=user_patronymic
+    
+
+
+
+if __name__=='__main__':
+    u=Full_Name(1,2,3)
+    print(u.__dict__)
+    print(u)
+    pass
+#================================================================
 class Person:
     """Класс персон с атрибуттами ID, ФИО, Возраст, Номер паспорта"""
     S_RUS = 'aбвгдеёжзийклмнопрстуфхцчшщьыъэюя-'
