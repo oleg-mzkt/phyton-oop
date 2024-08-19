@@ -5,28 +5,37 @@
 # 4. Номер паспорта в формате MP440276
 #       Предусмотреть возможность добавления и удаления атрибутов.
 #================================================================
+class ReadIntX:
+    def __set_name__(self,owner,name):
+        self.name = "_x"
+    
+    def __get__(self,instance,owner):
+        print(f"__get__:{self.name}={owner}")
+        return getattr(instance,self.name)
+
 class FN_interface:
     @classmethod
     def verify_full_name(cls,user_nsp):
         if type(user_nsp)!=str:
             raise TypeError("ФИО должно быть строкой 'str'")
     
-    def __set_name__(self,owner,name):
+    def __set_name__(self, owner, name):
         self.name = "_" + name
     
-    def __get__(self,instance,owner):
+    def __get__(self, instance, owner):
         print(f"__get__:{self.name}={owner}")
         return getattr(instance,self.name)
         
-    def __set__(self,instance,value):
+    def __set__(self, instance, value):
         print(f"сработал__set__:{self.name}={value}")
         self.verify_full_name(value)
         setattr(instance,self.name,value)
 
 class Full_Name:
-    user_name = FN_interface()
-    user_surname = FN_interface()
-    user_patronymic = FN_interface()
+    user_name = FN_interface()          #дискриптор данных
+    user_surname = FN_interface()       #дискриптор данных
+    user_patronymic = FN_interface()    #дискриптор данных
+    xr=ReadIntX()                       #дискриптор не данных
     
     def __init__(self, user_name, user_surname, user_patronymic):
         self.user_name=user_name
@@ -35,6 +44,7 @@ class Full_Name:
 
 if __name__=='__main__':
     u=Full_Name('Имя','Фамилия','Отчество')
+    u.xr="middle name"
     print(u.__dict__,'\n',u._user_name,u._user_surname,u.user_patronymic)
     pass
 #================================================================
