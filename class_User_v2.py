@@ -6,18 +6,22 @@
 #       Предусмотреть возможность добавления и удаления атрибутов.
 #================================================================
 class FN_interface:
+    @classmethod
+    def verify_full_name(cls,user_nsp):
+        if type(user_nsp)!=str:
+            raise TypeError("ФИО должно быть строкой 'str'")
     
     def __set_name__(self,owner,name):
         self.name = "_" + name
     
     def __get__(self,instance,owner):
         print(f"__get__:{self.name}={owner}")
-        return instance.__dict__[self.name]
+        return getattr(instance,self.name)
         
     def __set__(self,instance,value):
-        print(f"__set__:{self.name}={value}")
-        print(f"__set__:{self.name}={value}")
-        instance.__dict__[self.name] = [self.name]
+        print(f"сработал__set__:{self.name}={value}")
+        self.verify_full_name(value)
+        setattr(instance,self.name,value)
 
 class Full_Name:
     user_name = FN_interface()
@@ -28,14 +32,10 @@ class Full_Name:
         self.user_name=user_name
         self.user_surname=user_surname
         self.user_patronymic=user_patronymic
-    
-
-
 
 if __name__=='__main__':
-    u=Full_Name(1,2,3)
-    print(u.__dict__)
-    print(u)
+    u=Full_Name('Имя','Фамилия','Отчество')
+    print(u.__dict__,'\n',u._user_name,u._user_surname,u.user_patronymic)
     pass
 #================================================================
 class Person:
