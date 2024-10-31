@@ -43,4 +43,8 @@ def open_resource(*args):
 if __name__ == '__main__':
     with open_resource(1,2,3) as res:
         res.action()
+        raise ValueError('Stop') #>>> при появлении ошибки ресурc будет закрыт и память будет высвобождена
+    
+
+
    
