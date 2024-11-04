@@ -47,3 +47,19 @@ print(r.__dict__)
 print(l.name)
 print(r.name)
 # когда происходит обращение к какому-либо атрибуту - поиск просиходит сначала в том классе в котором вызвывали, а потом если не находит то в базовом
+
+# ---------------- 21EX_OOP --------------------
+print(issubclass(Geom,object)) # ghj
+print(issubclass(Line,object))
+print(issubclass(Rectangle,object))
+print(issubclass(Geom,Line))
+print('------')
+#print(issubclass(l,Line)) #ERROR!
+print(isinstance(l,Line))
+print(isinstance(l,Geom))
+print(isinstance(g,Geom))
+
+# issubclass - работа с классами
+# isinstance - работает и с элементами класса
+
+print(isinstance(int,object))
