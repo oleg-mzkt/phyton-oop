@@ -1,6 +1,6 @@
 # Насследование классов  
 # наследование происходить от базового класса
-class Geom():
+class Geom(): # базовый класс
     name = 'Имя Базового класса'
     def set_coords(self, x1, x2, y1, y2):
         self.x1 = x1
@@ -8,7 +8,7 @@ class Geom():
         self.y1 = y1 
         self.y2 = y2
 
-class Line(Geom):
+class Line(Geom): # дочерний класс Line от базового Geom
     #name='Имя линия'
     def draw(self):
         print("Рисование линии")
@@ -19,7 +19,7 @@ class Line(Geom):
     #     self.y1 = y1 
     #     self.y2 = y2
 
-class Rectangle(Geom):
+class Rectangle(Geom):  # дочерний класс Rectangle от базового Geom
     name='Имя прямоугольник' # переопределяем атрибута
     def draw(self):
         print("Рисование прямоугольника")
