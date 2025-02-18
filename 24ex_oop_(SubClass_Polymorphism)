@@ -9,3 +9,38 @@
 #### Наприме: необходимо высчитывать периметр разных фигур квадрата прямоугольника треугольника
 
 class Geom:
+
+    def get_perimetr(self):
+        raise NotImplementedError('функция периметра для круга не определена')
+
+class Rectangle(Geom): 
+    
+    def __init__(self,w,h):
+        self.w = w 
+        self.h = h
+        
+    def get_perimetr(self):      #для высчитывания периметра прямоугальника
+        return 2*(self.h+self.w)
+        
+class Square(Geom): 
+    
+    def __init__(self,a):
+        self.a = a 
+        
+    def get_perimetr(self):      #для высчитывания периметра квадрата
+        return 4*self.a
+
+class Round(Geom):
+    pi = 3.14
+
+    def __init__(self,r):
+        self.r = r
+
+    def get_perimetr(self):      #для высчитывания периметра круга
+        return 2*self.r*self.pi
+lst = []
+perimeter = [Rectangle(2,2),Square(4),Round(4)]
+for g in perimeter:
+    lst.append(g.get_perimetr())
+
+print('Периметры фигур прямоугольника, квадрата, круга:', lst)
