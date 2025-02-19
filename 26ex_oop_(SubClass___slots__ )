@@ -1,1 +1,22 @@
+#26. Коллекция __slots__ | Объектно-ориентированное программирование Python
+# Атрибуты класса  могут быть любимы например MAXCOORDS  = 100 или z = 30  
+# При определении локальных свойств __slots__  объём памяти будет занимать меньше + ускоряет работу
 
+class Point():
+    def __init__(self,x,y):
+        self.x = x 
+        self.y = y
+        
+class Point2D():
+    __slots__ = ('x','y') # в объектах Point2D только на локальные свойства, x и y - никакие другие
+    MAXCOORDS  = 100 
+    z = 30
+    def __init__(self,x,y):
+        self.x = x 
+        self.y = y
+        
+pt2 = Point2D(10,20)
+print(pt2.x)
+print(pt2.y)
+print(pt2.z)
+pt.a = 12 #>>> ERROR!
