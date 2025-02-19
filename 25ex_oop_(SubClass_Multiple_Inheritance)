@@ -10,6 +10,8 @@
 # 5. В спомогательных базовых классах Mixinlog стараться инициализацию прописывать без параметров, а для их инициализации использовать ф-цию:
    #super().__init__()  
 
+# 6.1) можно вызывать функции из определенного класса явно указывая на него с помощью функции MixinLog2.print_info(n)
+# 6.2) для постоянного вызоыва из определенного класса необходимо определить его в дочернем
 class Goods1():
     pass
 class Goods2(Goods1):
@@ -35,6 +37,9 @@ class MixinLog2(MixinLog1): # класс создан для инициализ�
     
     def seve_sell_log(self):
         print(f"{self.id}: товар был инициализирован в 00:00 часов")
+    
+    def print_info(self):
+        print(f"можно вызывать функции из конкретного класса явно указывая на него")
 
 class NoteBook(Goods2,MixinLog2):
     pass
@@ -43,5 +48,15 @@ n = NoteBook('Acer',1.5,30000)
 n.print_info()
 n.seve_sell_log()
 print(NoteBook.__mro__) # ф-ция .__mro__ показывает порядок очередности как будут искаться аттрибудты и методы в смешанном классе.
+############ 6.1 #########
+MixinLog2.print_info(n) # иначе эта функция будет вызываться из 1-го указанного общего класса NoteBook(Goods2,MixinLog2)
 
-# >>> порядок будет следующий (<class '__main__.NoteBook'>, <class '__main__.Goods2'>, <class '__main__.Goods1'>, <class '__main__.MixinLog1'>, <class '__main__.MixinLog2'>, <class 'object'>)
+############ 6.2 #########
+class NoteBook(Goods2,MixinLog2):
+    def print_info(self):
+        Goods2.print_info(self)
+    pass
+n.print_info()
+
+
+# >>> порядок __mro__ будет следующий (<class '__main__.NoteBook'>, <class '__main__.Goods2'>, <class '__main__.Goods1'>, <class '__main__.MixinLog1'>, <class '__main__.MixinLog2'>, <class 'object'>)
