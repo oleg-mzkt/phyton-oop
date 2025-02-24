@@ -1,12 +1,34 @@
 #28. Введение в обработку исключений. Блоки try / except | ООП Python
-# Типы ошибок:
-# - исключения во время исполнения (обработка исключений логики программы)
-# - исключения при компиляции/интерпритации (нужно правильно писать программу без синтаксических ошибок)
-
+# 1) Тип ошибок - :
+# а) исключения во время исполнения (ошибки можно обрабатывать не прерывая хода выполнения програамы:)
+# б) исключения при компиляции/интерпритации (нужно правильно писать программу без синтаксических ошибок)
+# 2) Есть ИЕРАРХИЯ отлавливания ошибок во главе которой стоит:
+# Base Exception⬅(Excepton, SystemExit, GeneratorExit, KeyboardInterrupt)
+# Excepton ⬅ (Attribute Error, Arithmetic Error, EOF Error, Name Error, Lookup Error, OS Error, Type Error, Value Error)
+# ArithmeticError ⬅ (ZeroDivision Error, Floating Point Error, Overflow Error)
+# Lookup Error ⬅ (Index Error, Key Error)
+# OS Error ⬅ (FileNotFound Error, Interrupted Error, Permission Error, TimeOut Error)
+# если вначале отлавливать ошибку вышестоящую по иерархии то остальные срабатывать не будут, т.е. ловим в первом exeption ArithmeticError:
+# то во втором exeption ZeroDivision Error: уже не сработает
+########### 1а) ###########
 try:
     f = open("myfile2.txt")
 except FileNotFoundError:
     print("Невозможно открыть файл") # выведет, если файл не найден и продолжит выполнение программы
+
+try:
+    x,y = map(int,input().split())
+    print(type(x),type(y))
+    devision = x/y
+
+except ValueError:
+    print("Ошибка типа данных") # выведет, если файл не найден 
+
+except ZeroDivisionError:
+    print("Деление на ноль невозможно") 
+    
+print ("\nпродолжение выполнение программы 2",)
+########### 2) ###########
 
 try:
     x,y = map(int, input().split())
@@ -14,7 +36,9 @@ try:
     devision = x/y
 except ValueError:
     print("Ошибка типа данных") # выведет, если файл не найден 
+except ArithmeticError:
+    print("Общая Арифметическая ошибка - остальные арифметические ошибки( Interrupted Error, Permission Error, TimeOut Error) срабатывать не будут") 
 except ZeroDivisionError:
     print("Деление на ноль невозможно") 
     
-print ("\nпродолжение выполнение программы",)
+print ("\n Завершение программы")
