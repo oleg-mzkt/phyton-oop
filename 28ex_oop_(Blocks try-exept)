@@ -17,6 +17,7 @@ except FileNotFoundError:
     print("Невозможно открыть файл") # выведет, если файл не найден и продолжит выполнение программы
 
 try:
+    print("введите 2 числа через пробел")
     x,y = map(int,input().split())
     print(type(x),type(y))
     devision = x/y
@@ -38,6 +39,7 @@ print ("\nпродолжение выполнение программы 2")
 ########### 2) ###########
 
 try:
+    print("введите 2 числа через пробел")
     x,y = map(int, input().split())
     print(type(x),type(y))
     devision = x/y
