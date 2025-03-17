@@ -1,8 +1,8 @@
 #35. Пользовательские метаклассы. Параметр metaclass | ООП Python
 #1. В Python мы можем создавать свои собственные Метаклассы, которые явно или не явно используют type для создания
 
-#а) с помошью функции 
-# (metaclass = craate_class_point) - специальный параметр при создании класса, будет отрабатываться функция craate_class_point
+#а) с помошью функции (- использовние  ф-ции просто как пример, чаще исп. метаклассы)
+# (metaclass = create_class_point) - специальный параметр при создании класса, будет отрабатываться функция craate_class_point
 class X: 
     MID_COORD = 50
 class Y: pass
@@ -20,11 +20,12 @@ def create_class_point(name, base, attrs):  # ф-ция дял создания 
     return type(name, base, attrs) # используют type для создания метакласса
      
 class Point(metaclass = create_class_point):  # специальный параметр metaclass ссылается на ф-цию создания метакласса
+    # в функцию передаются name = Point, attrs - метод get_coords, а base - кортедж из базовых классов
     def get_coords(self):
         return (0, 0)
         
 pt = Point()
-# когда отрабатывается class Point, name = Point ,base = () кортедж из базовых классов он пустой, и attrs = все атрибуты методы т.е. get_coords + потом ещё добавляем 'MAX_COORD' и 'MIN_COORD' в ф-ции create_class_point( )
+# когда отрабатывается class Point, name = Point ,base = () кортедж из базовых классов он пустой, и attrs = все атрибуты и методы т.е. get_coords + потом ещё добавляем 'MAX_COORD' и 'MIN_COORD' в ф-ции create_class_point( )
 print(pt.MAX_COORD)
 print(pt.get_coords()) 
 
