@@ -6,8 +6,15 @@
 #3)  Декоратор @dataclass автоматически прописывает  метод __eq__(), __init__(), __repr__()
 # их можно прописать самостоятельно или изменить логигу работы
 
+# 4)from dataclasses import field
+# теперь можем определять пустой список как параметр используюя  field()
+# spisok: list = field(default_factory = list)
+# default_factory = list - позволяет создавать пустые списки у объектов
+
 from dataclasses import dataclass
 from pprint import pprint 
+from dataclasses import field
+
 
 class Thing:
     def __init__(self, name, weight, price):
@@ -25,6 +32,15 @@ class ThingData:
     name: str         # анотация обязательна и важен порядко атрибута
     weight: int       # анотация обязательна и важен порядко атрибута
     price: float      # анотация обязательна и важен порядко атрибута
+    # можно назначить значение параметров по умолчанию
+    discount_price: float = 0 #  ВАЖНО!!! добавлять такие занчение последними
+    #spisok: list = []  тип должен быть YT !! 
+    #>>> Error
+        #####4.1##### 
+    #импортируем ф-цию  field c помощью которой можем использовать списки (изменяемые типы в @dataclass)
+    spisok: list = field(default_factory = list)
+        
+
 
 t = Thing("Учебник по Phyton 1", 100, 1024)
 td = ThingData("Учебник по Phyton 2", 100, 1024)
@@ -40,6 +56,7 @@ pprint(ThingData.__dict__)
 ####### 3 #########
 td_1 = ThingData("Учебник по Phyton 2", 100, 1024)
 td_2 = ThingData("Учебник по Phyton 2", 100, 1024)
+
 print (td_1 == td_2)  # фактически происходит сравнение двух картежей:
                       #(name, weight, price)==(name, weight, price)
 #>>> True # объекты равны если равны все параметры (name, weight , price )
@@ -55,3 +72,15 @@ t1 = Thing("Учебник по Phyton 1", 100, 1024)
 t2 = Thing("Учебник по Phyton 1", 100, 1024)
 print (t1 == t2) 
 #>>> False ВСЕГДА т.к. изначально сравнивается id, если не переопределен метод сравнения 
+
+
+#### 4.2 ####
+
+td_1.spisok.append(10)
+td_1.spisok.append(1)
+td_2.spisok.append(10)
+td_2.spisok.append(1)
+print (td_1 == td_2)
+#>>> True или False если списки равны или неравны
+
+print(td_1.__dict__)
