@@ -12,9 +12,20 @@
 #     ...
 #  в классе Book будут в инициализатор будут добавлены атрибуты  title и  author в конец т.к. остальные атрибуты наследуются от Goods и они будут переопределены а новые добавляются вконце 
 # 
-
+# 2. Инициализаторы базовых классов def __init__() вызываются автоматически , а вот __post_init__() вызывается в том в котором инициализирован... если в дочернем нет - вызывается в базовом классе
+# 
+# 3. Добавим в класс Book ещё один атрибут measure:list = field() / - будет содержать габариты предметов длина ширина высота
+# создадим class GoodsMethodsFactory:
+#  Итог: пример использования параметра default_factory
+#  это необходимо делать через внешний класс GoodsMethodsFactory т.к. если помещать в этот же клас ссылка  default_factory=Book.get_init_measure) не БУДЕТ РАБОТАТЬ
+#
 from dataclasses import dataclass, field, InitVar # подгружаем библиотеки с декоратором и функциями
 from typing import Any
+
+class GoodsMethodsFactory:
+    @staticmethod
+    def get_init_measure():
+        return[0,0,0] # возращается список из 3ёх значений [длина,выоста,ширин] 
 
 @dataclass
 class Goods:
@@ -36,9 +47,17 @@ class Book(Goods):
     author: str = "" 
     price: float = 0
     weight: int | float = 0
+    measure: list = field(default_factory=GoodsMethodsFactory.get_init_measure) #  атрибудт длинна ширина высота (список)  ссылка на класса с ф-цией для создания списка get_init_measure
     
-    def __post_init__(self):
-        super().__post_init__()
+######### 4 ########
+    # выносим во внешний класс т.к. ссылка:   
+    #  default_factory=Book.get_init_measure НЕ БУДЕТ РАБОТАТЬ В ЭТОМ ЖЕ КЛАССЕ
+    # @staticmethod
+    # def get_init_measure():
+    #     return[0,0,0]
+    
+    def __post_init__(self):    # когда в дочернем классе вызывается __post_init__ в базовом классе он не вызвывается, чтобы явно вызвать нужно использовать функцию super()
+        super().__post_init__() # явно вызываем __post_init__ в базовом классе, чтобы проинициализировать инкримент Goods.current_uid += 1
         print(f'Сработал Book: __post_init__')
 
 a = Goods(1)
