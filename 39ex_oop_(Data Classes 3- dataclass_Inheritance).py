@@ -27,7 +27,7 @@ class Goods:
     def __post_init__(self):       # срабатывает после иницаилизации
         Goods.current_uid += 1
         print(f'Сработал Goods: __post_init__ {Goods.current_uid} раз(а)')
-       self.uid = Goods.current_uid
+        self.uid = Goods.current_uid
 
 # на основе класса Goods создадим класс Books:
 @dataclass
@@ -38,7 +38,7 @@ class Book(Goods):
     weight: int | float = 0
     
     def __post_init__(self):
-        supper().__post_init__()
+        super().__post_init__()
         print(f'Сработал Book: __post_init__')
 
 a = Goods(1)
