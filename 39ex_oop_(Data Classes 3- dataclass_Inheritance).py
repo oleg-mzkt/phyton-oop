@@ -18,14 +18,31 @@
 # создадим class GoodsMethodsFactory:
 #  Итог: пример использования параметра default_factory
 #  это необходимо делать через внешний класс GoodsMethodsFactory т.к. если помещать в этот же клас ссылка  default_factory=Book.get_init_measure) не БУДЕТ РАБОТАТЬ
-#
-from dataclasses import dataclass, field, InitVar # подгружаем библиотеки с декоратором и функциями
+# 4. make_dataclass(cls_name, fields,*,bases=(),namespace=None, init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False,match_args=True,kw_only=False,slots=False,weakref_slot=False)
+
+from dataclasses import dataclass, field, InitVar, make_dataclass # подгружаем библиотеки с декоратором и функциями
 from typing import Any
 
-class GoodsMethodsFactory:
+
+class Car:
+    def __init__(self,model,max_speed,price):
+        self.model = model
+        self.max_speed = max_speed
+        self.price = price
+        
+    def get_max_speed(self):
+        return self.max_speed
+
+CarData = make_dataclass("CarData",[("model",str),
+                        "max_speed",
+                        ("price", float, field(default=0))],
+                        namespace={"get_max_speed":lambda self:self.max_speed})
+
+class GoodsMethodsFactory:  # промежуточный класс 
     @staticmethod
     def get_init_measure():
         return[0,0,0] # возращается список из 3ёх значений [длина,выоста,ширин] 
+
 
 @dataclass
 class Goods:
@@ -47,7 +64,7 @@ class Book(Goods):
     author: str = "" 
     price: float = 0
     weight: int | float = 0
-    measure: list = field(default_factory=GoodsMethodsFactory.get_init_measure) #  атрибудт длинна ширина высота (список)  ссылка на класса с ф-цией для создания списка get_init_measure
+    measure: list = field(default_factory=GoodsMethodsFactory.get_init_measure) #  атрибут длинна ширина высота (список) field(default....)- ссылка на класса с ф-цией для создания списка get_init_measure (если ссылку сразу направить default_factory=Book.... - ничего работать не будет, поэтому нужен промежуточный класс ) 
     
 ######### 4 ########
     # выносим во внешний класс т.к. ссылка:   
@@ -66,5 +83,8 @@ print(a)
 #Goods(uid=1, price=1, weight=None)
 print(b)
 #Book(uid=2, price=1, weight=0, title='', author='')
-b = Book(1000, 100, "Python ООП", "Балакирев С.М.")
-print(b)
+c = Book(1000, 100, "Python ООП", "Балакирев С.М.")
+print(c)
+
+d=CarData("BMW",256,4096)
+print(d)
