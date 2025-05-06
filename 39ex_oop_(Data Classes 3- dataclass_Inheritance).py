@@ -33,11 +33,27 @@ class Car:
     def get_max_speed(self):
         return self.max_speed
 
-CarData = make_dataclass("CarData",[("model",str),
-                        "max_speed",
-                        ("price", float, field(default=0))],
-                        namespace={"get_max_speed":lambda self:self.max_speed})
+###########  КЛАССЫ МОЖНО СОЗДОВАТЬ С ПОМОЩЬЮ make_dataclass ########
+######### создадим аналог класса Car таким образом #######
+# -  make_dataclass используется, как правило, если нужно сформировать класс в процессе выполнения программ, в большенстве случаев используют декоратор @dataclass
+CarData = make_dataclass("CarData",
+                        [("model",str),"max_speed",("price", float, field(default=0))],
+                        namespace={"get_max_speed":lambda self :self.max_speed})
+                        # namespace={"название метода":(пример lambda)}
+                        #lambda функция - это ф-ция, котор может иметь любое количество аргументов, но вычисляет и возвращает только одно значение ПРИМЕР:
+                        #def defined_cube(y):
+                        #   return y*y*y
+                        #lambda_cube = lambda y: y*y*y 
+                        
+######## класс созданный таким образом имеет и метод __repr__ и __init__ всё тоже самое что и используюя декоратор @dataclass. ########
 
+d=CarData("BMW 525d",240,4540)
+print(d)
+print(d.get_max_speed(),'km/h')
+print(d.__dict__)
+###### убедимся счто в классе присутсвтвует метод(ф-ция)"get_max_speed"
+
+########### dataclass ###########
 class GoodsMethodsFactory:  # промежуточный класс 
     @staticmethod
     def get_init_measure():
@@ -86,5 +102,3 @@ print(b)
 c = Book(1000, 100, "Python ООП", "Балакирев С.М.")
 print(c)
 
-d=CarData("BMW",256,4096)
-print(d)
