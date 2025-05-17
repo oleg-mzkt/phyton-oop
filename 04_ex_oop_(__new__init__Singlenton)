@@ -1,10 +1,13 @@
 #4. Магический метод __new__. Пример паттерна Singleton | Объектно-ориентированное программирование
 
-# все классы в пайтон наследуются от базового класса object
+#1) все классы в пайтон наследуются от базового класса object
 
 # (cls) - ссылка на текущий класс - применяют для внесения изменений, относящихся ко всему классу, тогда как self предназначен для взаимодействия с конкретным экземпляром.
 # super() - это функция, которая позволяет вызывать методы родительского класса в дочернем классе
 # supper().__new__(cls) вызов маг.метода из базового класса для того чтобы возвратить адрес создоваемого объекта
+
+#2) Singleton — это порождающий паттерн проектирования, который гарантирует, что класс имеет только один экземпляр и предоставляет глобальную точку доступа
+
 
 ####### 1 #########
 class Point:
@@ -24,39 +27,53 @@ class Point:
 pt =Point(1,2) 
 print(pt)
 
-####### 2 #########  Singleton
+####### 2 #########  Singleton — это порождающий паттерн проектирования, который гарантирует, что класс имеет только один экземпляр и предоставляет глобальную точку доступа
+
 # предположим что мы разрабатываем класс для работы с базой данных DataBase и в каждый момент времения должен существовать только ОДИН(1) экземпляр этого класса
-class = DataBase():
+
+class DataBase():
     __instance = None # ссылка на экземпляр класса, если его нет = None
-
-def __new__(cls,*args,**kwargs):
-    if cls.__instance is None:               # если ссылка свободная
-        cls.__instance = super().__new__(cls) # получаем адрес этого объекта
-    return cls.__instance # возвращаем адрес полученного объекта или текущего если  __instance не = None.
-
-def __del__(self):
-    DataBase.__instance = None # если объект был удалён то __instance принимает значение None
     
-def __init__(self,user,psw,port):
-    self.user = user
-    self.psw = psw
-    self.port = port
+    def __call__(self, *args):   # Реализует вызов экземпляра как функицию типа db(аргументы)
+        print('Called:', args)
+        return None
+
+    def __new__(cls,*args,**kwargs):
+        if cls.__instance is None:               # если ссылка свободная
+            cls.__instance = super().__new__(cls) # получаем адрес этого объекта
+        return cls.__instance # возвращаем адрес полученного объекта или текущего если  __instance не = None.
+
+    def __del__(self):
+        DataBase.__instance = None # если объект был удалён то __instance принимает значение None
     
-def connect(self):
-    print(f"установлено соединение с БД {self.user},{self.psw},{self.port}")
+    def __init__(self,user,psw,port):
+        self.user = user
+        self.psw = psw
+        self.port = port
+    
+    def connect(self):
+        print(f"установлено соединение с БД {self.user},{self.psw},{self.port}")
 
-def close(self):
-    print("закрытие соединение с БД")
+    def close(self):
+        print("закрытие соединение с БД")
 
-def read(self):
-    return "данные из БД"
+    def read(self):
+        return "данные из БД"
 
-def write(self, data):
-    print(f"запись в БД {data}")
-
+    def write(self, data):
+        print(f"запись в БД {data}")
 
     
-db = DataBase('root','1234',80)
-db = DataBase('root2','5678',80)
-
-print(id(db),id(db))
+db = DataBase('admin','admin',8080)
+db2 = DataBase('default','password',8080)
+db('root4','5673',8080)
+db2('root4','5675',8080)
+print(id(db),id(db2))
+print(id(db)==id(db2)) # если db == db2 это значит что переменные ссылаются на один объект - второй экземпляр класса создаваться не будет,то что и требовалось  
+#>>> True
+print(db.user)
+print(db2.user)
+if id(db) == id(db2):
+    print("Singleton works, both variables contain the same instance.")
+else:
+    print("Singleton failed, variables contain different instances.")
