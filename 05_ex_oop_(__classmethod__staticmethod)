@@ -47,4 +47,5 @@ class Vector():
 v = Vector(1,20)
 result = Vector.get_coord(v)
 print(result)
-print(Vector.norm2(5,6))
+print(Vector.norm2(5,6)) # вызов стаитик метода через имя класса
+print(v.norm2(5,6)) # вызов стаитик метода через имя экземпляра
